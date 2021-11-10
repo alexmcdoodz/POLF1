@@ -120,10 +120,13 @@ function setup() {
 	// add our bodies to the world so it is effected by the physics engine. 
 	World.add(world, [boxy.body, circley.body, groundy.body, mouseConstraint]);
 
-    Events.on(mouseConstraint, "mousedown", function() {
-        // mouseIsDown = true;
-        // mousePos = mouse.position;
-        console.log("Mouse down");
+    var mouseIsDown = false;
+    var mousePos;
+
+    Events.on(mouseConstraint, "mousedown", function(event) {
+        mouseIsDown = true;
+        mousePos = event.mouse.position;
+        console.log(mouseIsDown + " " + mousePos.x + " " + mousePos.y);
     })
 }
 
@@ -137,11 +140,6 @@ function setup() {
 // if mouseup then
 //     cueBall.applyForce(force)
 //     removePointer()
-
-
-// var mouseIsDown = false;
-// var mousePos;
-
 
 
 function draw() {
