@@ -111,7 +111,7 @@ function setup() {
 	engine = Engine.create();
 	world = engine.world; 
     mouseConstraint = MouseConstraint.create(engine, {
-        element: viewport,
+        element: viewport.elt,
         constraint: {}
     });
 	// add our bodies to the world so it is effected by the physics engine. 
