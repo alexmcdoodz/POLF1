@@ -127,7 +127,20 @@ function setup() {
         mouseIsDown = true;
         mousePos = event.mouse.position;
         console.log(mouseIsDown + " " + mousePos.x + " " + mousePos.y);
-    })
+    });
+
+    Events.on(mouseConstraint, "mousemove", function(event) {
+        if (mouseIsDown) {
+            mousePos = event.mouse.position;
+            console.log(mousePos.x + " " + mousePos.y);
+        }
+    });
+
+    Events.on(mouseConstraint, "mouseup", function(event) {
+        mouseIsDown = false;
+        mousePos = event.mouse.position;
+        console.log(mouseIsDown + " " + mousePos.x + " " + mousePos.y);
+    });
 }
 
 
