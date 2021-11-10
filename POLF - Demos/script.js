@@ -3,18 +3,22 @@ const vp_width = window.innerWidth / 2, vp_height = window.innerHeight / 2;
 var Engine = Matter.Engine,
 	World = Matter.World,
 	Bodies = Matter.Bodies,
+    Body = Matter.Body,
+    Mouse = Matter.Mouse,
     MouseConstraint = Matter.MouseConstraint,
-    Events = Matter.Events;
+    Events = Matter.Events,
+    Vector = Matter.Vector;
 
 class ball {
 	// takes in starting location and sets radius of ball
-	constructor(x,y,r) {
+	constructor(x,y,r, options) {
 		this.x = x; // Maybe unnecessary
 		this.y = y;
 		this.radius = r;
 		this.diameter = r * 2;
 		// sets the body property of class to a matter.js body
-		this.body = Bodies.circle(this.x, this.y, this.radius); 
+		this.body = Bodies.circle(this.x, this.y, this.radius, options); 
+        World.add(world, this.body);
 	}
 	// Function to render ball to screen, called within P5 draw()
 	drawBall() {
@@ -39,20 +43,16 @@ class cueBall extends ball {
     }
 
     applyForce(mousePos) {
-        // body.applyForce ??
-        // mouse or mouseconstraint might give mouse position and events
-        // Events.on(mouseconstraint, "mousedown", callback) >> event{mouse, sourceElement, eventName}
-
-        // mouse object has mosue.position, docs don't mention it
-
-        // Vector.magnitude(vector)
-        // There should be a maximum magnitude of force, or the user could send the cue to space
-
         // Force should be applied on mouseup, 
         // pointer should be drawn while mousedown and position should be updated on mousemove
 
-        force = Vector.create();
-        this.body.applyForce(force);
+        var mouseToBall = Vector.sub(this.body.position, mousePos);
+        mouseToBall = Vector.mult(mouseToBall, 0.1);
+        console.log(Vector.magnitude(mouseToBall));
+
+        // if (Vector.magnitude(mouseToBall) > 20)
+
+        Body.setVelocity(this.body, mouseToBall);
     }
 }
 
@@ -65,7 +65,8 @@ class ground {
 		this.options = {
 			isStatic: true
 		}
-		this.body = Bodies.rectangle(this.x, this.y, this.height, this.width, this.options)
+		this.body = Bodies.rectangle(this.x, this.y, this.height, this.width, this.options);
+        World.add(world, this.body);
 	}
 	drawGround() {
 		var pos = this.body.position
@@ -82,6 +83,7 @@ class box {
 		this.height = h
 		this.width = w
 		this.body = Bodies.rectangle(this.x, this.y, this.height, this.width)
+        World.add(world, this.body);
 	}
 	drawBox() {
 		var pos = this.body.position;
@@ -99,18 +101,24 @@ class box {
 
 
 var boxy, groundy, engine, world, circley, mouseConstraint;
-circley = new ball(200, 100, 50);
-groundy = new ground(vp_width / 2, vp_height - 20, 600, 30)
-boxy = new box(200, 10, 100, 100);
-console.log(circley.body)
-console.log(groundy.body)
+// circley = new cueBall(200, 100, 10);
+// groundy = new ground(vp_width / 2, vp_height - 20, 600, 30)
+// boxy = new box(200, 10, 100, 100);
+
+
+var mouseIsDown = false;
+var mousePos;
 
 function setup() {
 	viewport = createCanvas(vp_width, vp_height); 
 	viewport.parent("viewport_container");
 	engine = Engine.create();
 	world = engine.world; 
+    world.gravity.y = 0;
+    var mouse = Mouse.create(viewport.elt);
+    mouse.pixelRatio = pixelDensity();
     mouseConstraint = MouseConstraint.create(engine, {
+        mouse: mouse,
         element: viewport.elt,
         constraint: {
             render: {visible: false},
@@ -118,28 +126,30 @@ function setup() {
         }
     });
 	// add our bodies to the world so it is effected by the physics engine. 
-	World.add(world, [boxy.body, circley.body, groundy.body, mouseConstraint]);
+	World.add(world, mouseConstraint);
+    circley = new cueBall(200, 100, 10, {restitution: 1});
+    groundy = new ground(vp_width / 2, vp_height - 20, 600, 30)
 
-    var mouseIsDown = false;
-    var mousePos;
+
 
     Events.on(mouseConstraint, "mousedown", function(event) {
         mouseIsDown = true;
         mousePos = event.mouse.position;
-        console.log(mouseIsDown + " " + mousePos.x + " " + mousePos.y);
+        // console.log(mouseIsDown + " " + mousePos.x + " " + mousePos.y);
     });
 
     Events.on(mouseConstraint, "mousemove", function(event) {
         if (mouseIsDown) {
             mousePos = event.mouse.position;
-            console.log(mousePos.x + " " + mousePos.y);
+            // console.log(mousePos.x + " " + mousePos.y);
         }
     });
 
     Events.on(mouseConstraint, "mouseup", function(event) {
         mouseIsDown = false;
         mousePos = event.mouse.position;
-        console.log(mouseIsDown + " " + mousePos.x + " " + mousePos.y);
+        circley.applyForce(mousePos);
+        // console.log(mouseIsDown + " " + mousePos.x + " " + mousePos.y);
     });
 }
 
@@ -162,7 +172,7 @@ function draw() {
 	fill(200)
 
 
-	boxy.drawBox()
+	// boxy.drawBox()
 	circley.drawBall()
 	groundy.drawGround()
     // Could use ballArray.map((b) => b.drawBall())
