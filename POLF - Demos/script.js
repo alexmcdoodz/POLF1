@@ -11,11 +11,12 @@ var Engine = Matter.Engine,
 
 class ball {
 	// takes in starting location and sets radius of ball
-	constructor(x,y,r, options) {
+	constructor(x,y,r, options, colour) {
 		this.x = x; // Maybe unnecessary
 		this.y = y;
 		this.radius = r;
 		this.diameter = r * 2;
+        this.colour = colour;
 		// sets the body property of class to a matter.js body
 		this.body = Bodies.circle(this.x, this.y, this.radius, options); 
         World.add(world, this.body);
@@ -31,15 +32,15 @@ class ball {
 		rotate(angle);
 		strokeWeight(1);
 		stroke(255);
-		fill(127);
+		fill(this.colour);
 		circle(0, 0, this.diameter);
 		pop();
 	}
 }
 
 class cueBall extends ball {
-    constructor(x,y,r) {
-        super(x,y,r);
+    constructor(x,y,r, options) {
+        super(x,y,r, options, 127);
     }
 
     applyForce(mousePos) {
@@ -50,7 +51,10 @@ class cueBall extends ball {
         mouseToBall = Vector.mult(mouseToBall, 0.1);
         console.log(Vector.magnitude(mouseToBall));
 
-        // if (Vector.magnitude(mouseToBall) > 20)
+        if (Vector.magnitude(mouseToBall) > 15 || Vector.magnitude(mouseToBall) < -15) {
+            console.log("Power threshold reached")
+            mouseToBall = Vector.mult(Vector.normalise(mouseToBall), 15);
+        }
 
         Body.setVelocity(this.body, mouseToBall);
     }
@@ -100,10 +104,7 @@ class box {
 
 
 
-var boxy, groundy, engine, world, circley, mouseConstraint;
-// circley = new cueBall(200, 100, 10);
-// groundy = new ground(vp_width / 2, vp_height - 20, 600, 30)
-// boxy = new box(200, 10, 100, 100);
+var boxy, groundy, engine, world, circley, mouseConstraint, ball1;
 
 
 var mouseIsDown = false;
@@ -127,8 +128,10 @@ function setup() {
     });
 	// add our bodies to the world so it is effected by the physics engine. 
 	World.add(world, mouseConstraint);
-    circley = new cueBall(200, 100, 10, {restitution: 1});
+    circley = new cueBall(200, 100, 7, {restitution: 1, frictionAir: 0.0125});
     groundy = new ground(vp_width / 2, vp_height - 20, 600, 30)
+
+    ball1 = new ball(200, 200, 7, {restitution: 1, frictionAir: 0.0125}, 30)
 
 
 
@@ -153,28 +156,26 @@ function setup() {
     });
 }
 
-
-// mousePos = Mouse.postion
-// force = cueBall.vectorTo(mousePos)
-
-// if mousedown and mousemove then
-//     drawPointer(force)
-
-// if mouseup then
-//     cueBall.applyForce(force)
-//     removePointer()
-
-
 function draw() {
 	Engine.update(engine)
 	background(255)
 	fill(200)
 	fill(200)
 
+    // Not working pointer stuff:
+
+    // while (mouseIsDown) {
+    //     var mouseToBall = Vector.sub(circley.position, mousePos);
+    //     mouseToBall = Vector.mult(mouseToBall, 0.1);
+    //     console.log(mousePos.x + " " + mousePos.y);
+    //     // drawPointer()
+    // }
+
 
 	// boxy.drawBox()
 	circley.drawBall()
 	groundy.drawGround()
+    ball1.drawBall()
     // Could use ballArray.map((b) => b.drawBall())
 }
 
