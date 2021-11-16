@@ -1,7 +1,7 @@
 # POLF by Alex McDonald and Charlotte Stick
 
 ## Intro
-Our game idea was to combine features from pool and mini golf, as we felt that neither game idea allowed us to fully demonstrate all the features needed for higher level marks. The concept is that the player has to hit all of the pool balls into the golf hole, using the cue to move them, in the least amount of strokes. If you hit the cue ball into the hole, it is a foul and you lose a life. 
+Our game idea was to combine features from pool and mini golf, as we felt that neither game idea allowed us to fully demonstrate all the features needed for higher level marks. The concept is that the player has to hit all of the pool balls into the golf hole, using the cue ball to move them, in the least amount of strokes. If you hit the cue ball into the hole, it is a foul and you lose a life. 
 
 ## Task breakdown
 
@@ -12,7 +12,7 @@ Our game idea was to combine features from pool and mini golf, as we felt that n
 ### Create mouse input (Charlotte)
 ### Implement Ball.addForce() (Charlotte)
 ### Prevent balls from being picked up by the user (Alex)
-### Implement pointer (Alex)
+### Implement pointer (Both)
 ### Implement circle-circle collision detection for hole (Alex)
 ### Create Level class (Alex)
 ### Create Game class (Alex)
@@ -39,4 +39,4 @@ The first level has two pool balls and a power up, the second level has a pyrami
 ## WWW EBI
 
 ## Future plans
-In our original idea, we wanted to put in the crazy golf concept of having weirdly shaped courses and silly obstacles ect. As we began coding the project we decied that this would be too complex for our timeframe, so we stuck to a simple rectangular course and a sand pit obstacle
+In our original idea, we wanted to put in the crazy golf concept of having weirdly shaped courses and silly obstacles ect. As we began coding the project we decied that this would be too complex for our timeframe, so we stuck to a simple rectangular course and a sand pit obstacle.
