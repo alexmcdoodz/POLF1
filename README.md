@@ -1,9 +1,9 @@
 # POLF by Alex McDonald and Charlotte Stick
 
-## Into describing game
+## Intro
 Our game idea was to combine features from pool and mini golf, as we felt that neither game idea allowed us to fully demonstrate all the features needed for higher level marks. The concept is that the player has to hit all of the pool balls into the golf hole, using the cue to move them, in the least amount of strokes. If you hit the cue ball into the hole, it is a foul and you lose a life. 
 
-## Task breakdown and who worked on which tasks, some will be both
+## Task breakdown
 
 ### Create Ball class (Both)
 ### Create CueBall class, inherits from Ball (Charlotte)
@@ -25,7 +25,7 @@ Our game idea was to combine features from pool and mini golf, as we felt that n
 ### Implement end score screen on completing level three and restart button (Alex)
 ### Write markdown documentation (Charlotte)
 
-## Talk about higher distinction level features further
+## Higher distinction level features
 
 ### Unique game concept
 Our game idea is original and creative
