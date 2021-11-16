@@ -36,7 +36,5 @@ The power up can be an extra life, high friction ("Lead ball"), or low friction 
 ### Three levels with a variety of layouts and features
 The first level has two pool balls and a power up, the second level has a pyramid of 6 pool balls and a power up, and the third level has two pool balls and a sand pit area
 
-## WWW EBI
-
 ## Future plans
 In our original idea, we wanted to put in the crazy golf concept of having weirdly shaped courses and silly obstacles ect. As we began coding the project we decied that this would be too complex for our timeframe, so we stuck to a simple rectangular course and a sand pit obstacle.
